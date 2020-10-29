@@ -1,0 +1,6 @@
+paragraphs_view.settings:
+  title: 'Paragraphs View Settings'
+  route_name: paragraphs_view.settings
+  weight: 2
+  appears_on:
+    - entity.paragraphs_type.collection

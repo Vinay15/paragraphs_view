@@ -1,0 +1,5 @@
+paragraphs_view.paragraphs:
+  route_name: paragraphs_view.paragraphs
+  group: paragraph
+  title: View
+

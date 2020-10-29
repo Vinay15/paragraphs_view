@@ -1,0 +1,19 @@
+paragraphs_view.settings:
+  path: '/admin/structure/paragraphs_type/paragraphs_view_settings'
+  defaults:
+    _form: '\Drupal\paragraphs_view\Form\ParagraphsViewSettingsForm'
+    _title: 'Enable Paragraphs view page'
+  requirements:
+    _permission: 'administer paragraphs types'
+
+paragraphs_view.paragraphs:
+  path: '/paragraph/{paragraph}/{view_mode}'
+  defaults:
+    _entity_view: paragraph
+    view_mode: view_mode
+  options:
+    parameters:
+      paragraph:
+        type: 'entity:paragraph'
+  requirements:
+    _custom_access: '\Drupal\paragraphs_view\Controller\ParagraphsViewAccessController::access'

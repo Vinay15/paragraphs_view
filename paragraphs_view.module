@@ -1,0 +1,63 @@
+<?php
+
+/**
+ * @file
+ * Paragraphs view module file.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_paragraphs_widget_actions_alter().
+ */
+function paragraphs_view_paragraphs_widget_actions_alter(array &$widget_actions, array &$context) {
+  $field_definition = $context['items']->getFieldDefinition();
+  $parents = $context['element']['#field_parents'];
+  $delta = $context['delta'];
+  $id_prefix = implode('_', array_merge($parents, [$field_definition->getName(), $delta]));
+  $url = Url::fromRoute('paragraphs_view.paragraphs', ['paragraph' => $context['paragraphs_entity']->id()], ['attributes' => ['target' => '_blank']]);
+  $widget_actions['dropdown_actions']['view_paragraph_page'] = _get_renderable_link($url, $context['element']['#paragraph_type'], $id_prefix . '_view_paragraph_page', $delta);
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ */
+function paragraphs_view_field_widget_entity_reference_paragraphs_form_alter(&$element, FormStateInterface $form_state, $context) {
+  $field_definition = $context['items']->getFieldDefinition();
+  $parents = $context['element']['#field_parents'];
+  $delta = $context['delta'];
+  $id_prefix = implode('_', array_merge($parents, [$field_definition->getName(), $delta]));
+  $url = Url::fromRoute('paragraphs_view.paragraphs', ['paragraph' => $context['items'][$delta]->entity->id()], ['attributes' => ['target' => '_blank']]);
+  $element['top']['links']['view_paragraph_page'] = _get_renderable_link($url, $element['#paragraph_type'], $id_prefix . '_view_paragraph_page', $delta);
+}
+
+/**
+ * Generates a renderable "View Paragraph Page" link.
+ *
+ * @param \Drupal\Core\Url $url
+ *   The paragraph page url.
+ * @param string $paragraph_type
+ *   The paragraph type.
+ * @param string $name
+ *   Name of the element to be used in #name.
+ * @param $delta
+ *   The delta value.
+ *
+ * @return array
+ *   Returns a renderable "View Paragraph Page" link.
+ */
+function _get_renderable_link(Url $url, $paragraph_type, $name, $delta) {
+  return [
+    '#name' => $name,
+    '#type' => 'link',
+    '#url' => $url,
+    '#title' => t('View Paragraph Page'),
+    '#weight' => 503,
+    '#delta' => $delta,
+    '#access' => \Drupal::currentUser()->hasPermission('access paragraph view for ' . $paragraph_type),
+    '#attributes' => [
+      'class' => ['button--small', 'button'],
+    ],
+  ];
+}

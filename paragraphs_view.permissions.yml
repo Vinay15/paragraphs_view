@@ -1,0 +1,2 @@
+permission_callbacks:
+  - Drupal\paragraphs_view\ParagraphsViewPermissions::permissions

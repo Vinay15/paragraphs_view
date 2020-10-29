@@ -1,0 +1,7 @@
+name: 'Paragraphs View'
+description: 'Enables entity view page for paragraphs entities.'
+package: Paragraphs
+type: module
+core_version_requirement: ^8.8 || ^9
+dependencies:
+  - paragraphs:paragraphs
