@@ -3,5 +3,6 @@ description: 'Enables entity view page for paragraphs entities.'
 package: Paragraphs
 type: module
 core_version_requirement: ^8.8 || ^9
+configure: paragraphs_view.settings
 dependencies:
   - paragraphs:paragraphs
